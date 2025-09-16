@@ -6,7 +6,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    
         <!-- Add Axios Library -->
-
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <div class="container-fluid">
@@ -21,7 +21,29 @@
 
         <script>
             // add event handler code here
+            function showHint() {
+                let input = document.getElementById("nameInput");
+                let name = input.value;
 
+                if (name == "") {
+                    document.getElementById("suggestions").textcontent = "";
+                    return;
+                } else {
+                    axios.get("/suggest", {
+                        params: {
+                            query: name
+                        }
+                    })
+                    .then(response => {
+                        document.getElementById("suggestions").textContent = response.data;
+                    })
+                    .catch(error => {
+                        document.getElementById("suggestions").textcontent = "Could not load suggestions";
+                    })
+                }
+            }
+
+            document.getElementById("nameInput").onkeyup = showHint;
         </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
